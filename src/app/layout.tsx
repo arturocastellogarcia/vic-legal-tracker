@@ -32,7 +32,7 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <TooltipProvider delayDuration={300}>
+        <TooltipProvider>
           {children}
         </TooltipProvider>
         <Toaster richColors position="bottom-right" />

@@ -35,12 +35,22 @@ export default async function ExpedientesPage() {
             {allExpedientes.length} expediente{allExpedientes.length !== 1 ? "s" : ""} en el sistema.
           </p>
         </div>
-        <Link
-          href="/expedientes/nuevo"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-vic-blue text-white text-[13px] font-medium hover:bg-vic-blue-dark transition-colors"
-        >
-          Nuevo expediente
-        </Link>
+        <div className="flex items-center gap-2">
+          {allExpedientes.length > 0 && (
+            <a
+              href="/api/expedientes/export"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-border bg-white text-[13px] font-medium text-muted-foreground hover:bg-muted transition-colors"
+            >
+              Exportar CSV
+            </a>
+          )}
+          <Link
+            href="/expedientes/nuevo"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-vic-blue text-white text-[13px] font-medium hover:bg-vic-blue-dark transition-colors"
+          >
+            Nuevo expediente
+          </Link>
+        </div>
       </div>
 
       {allExpedientes.length === 0 ? (

@@ -382,6 +382,18 @@ export default async function ExpedienteDetailPage({
             </p>
           )}
         </div>
+
+        {/* Export */}
+        <div>
+          <a
+            href={`/api/expedientes/${id}/pdf`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 w-full justify-center px-3 py-2 rounded-md border border-border bg-white text-[12px] font-medium text-muted-foreground hover:bg-muted transition-colors"
+          >
+            Exportar informe PDF
+          </a>
+        </div>
       </div>
     </div>
   );

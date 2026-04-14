@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { VicLogo } from "./vic-logo";
+import { NotificationsBell } from "./notifications-bell";
 import {
   Inbox,
   FileText,
@@ -105,6 +106,9 @@ export function Sidebar({ user }: SidebarProps) {
         <span className="text-[13px] font-semibold text-foreground tracking-tight">
           Legal Tracker
         </span>
+        <div className="ml-auto">
+          <NotificationsBell />
+        </div>
       </div>
 
       {/* Main nav */}

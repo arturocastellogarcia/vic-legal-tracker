@@ -1,6 +1,6 @@
 import { requireSession } from "@/lib/auth/session";
-import { db, expedientes, pasosExpediente, pasosFlujo, users, actividad } from "@/lib/db";
-import { eq, asc, desc } from "drizzle-orm";
+import { db, expedientes, pasosExpediente, pasosFlujo, users, actividad, documentos, comentarios } from "@/lib/db";
+import { eq, asc, desc, and, isNull } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -78,6 +78,18 @@ export default async function ExpedienteDetailPage({
       .limit(1);
     juridicoName = j?.fullName ?? null;
   }
+
+  // Fetch documents for the expediente
+  const allDocs = await db
+    .select()
+    .from(documentos)
+    .where(
+      and(
+        eq(documentos.expedienteId, id),
+        isNull(documentos.deletedAt)
+      )
+    )
+    .orderBy(asc(documentos.createdAt));
 
   // Recent activity
   const recentActivity = await db
@@ -269,6 +281,15 @@ export default async function ExpedienteDetailPage({
                 requiereDocumento={currentPaso.flujo.requiereDocumento}
                 requiereValidacion={currentPaso.flujo.requiereValidacion}
                 validadorRol={currentPaso.flujo.validadorRol}
+                documentos={allDocs
+                  .filter((d) => d.pasoExpedienteId === currentPaso.paso.id)
+                  .map((d) => ({
+                    id: d.id,
+                    nombre: d.nombre,
+                    nombreArchivo: d.nombreArchivo,
+                    tamanoBytes: d.tamanoBytes,
+                    createdAt: d.createdAt.toISOString(),
+                  }))}
               />
             </div>
           </div>

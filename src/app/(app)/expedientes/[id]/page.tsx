@@ -1,5 +1,5 @@
 import { requireSession } from "@/lib/auth/session";
-import { db, expedientes, pasosExpediente, pasosFlujo, users, actividad, documentos, comentarios } from "@/lib/db";
+import { db, expedientes, pasosExpediente, pasosFlujo, users, actividad, documentos, comentarios, plantillas } from "@/lib/db";
 import { eq, asc, desc, and, isNull } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -248,19 +248,26 @@ export default async function ExpedienteDetailPage({
               </div>
             )}
 
-            {/* Required document */}
-            {currentPaso.flujo.requiereDocumento && (
+            {/* Required document + plantilla */}
+            {(currentPaso.flujo.requiereDocumento || currentPaso.flujo.plantillaId) && (
               <div className="mt-4 p-3 rounded-lg border border-border bg-muted/30">
-                <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">
-                  <FileText className="w-3.5 h-3.5" />
-                  Documento requerido
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <FileText className="w-3.5 h-3.5" />
+                    Documento requerido
+                  </div>
+                  {currentPaso.flujo.plantillaId && (
+                    <a
+                      href={`/api/plantillas/${currentPaso.flujo.plantillaId}/download`}
+                      className="inline-flex items-center gap-1 text-[11px] font-medium text-vic-blue hover:underline"
+                    >
+                      Descargar plantilla
+                    </a>
+                  )}
                 </div>
                 <div className="text-[13px]">
                   {currentPaso.flujo.documentoRequerido ?? "Documento"}
                 </div>
-                <p className="text-[11px] text-muted-foreground mt-1">
-                  Subida de documentos disponible en Sprint 4.
-                </p>
               </div>
             )}
 
